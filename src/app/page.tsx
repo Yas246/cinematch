@@ -175,7 +175,7 @@ export default function Home() {
           </div>
           <p className="text-lg text-gray-300 max-w-2xl mx-auto">
             Découvrez des films qui vous correspondent grâce à notre système de
-            recommandation intelligent alimenté par l'IA
+            recommandation intelligent alimenté par l&apos;IA
           </p>
         </div>
 
@@ -289,14 +289,14 @@ export default function Home() {
                       className="flex-1 bg-[#E50914] text-white py-3 rounded-full 
                                hover:bg-[#F40D12] hover:-translate-y-1 transition-all duration-200"
                     >
-                      J'aime
+                      J&apos;aime
                     </button>
                     <button
                       onClick={() => sendFeedback(selectedMovie.title, false)}
                       className="flex-1 bg-gray-700 text-white py-3 rounded-full 
                                hover:bg-gray-600 hover:-translate-y-1 transition-all duration-200"
                     >
-                      Je n'aime pas
+                      Je n&apos;aime pas
                     </button>
                   </div>
                 </div>
@@ -342,14 +342,14 @@ export default function Home() {
                         className="flex-1 bg-[#E50914] text-white py-3 rounded-full 
                                  hover:bg-[#F40D12] hover:-translate-y-1 transition-all duration-200"
                       >
-                        J'aime
+                        J&apos;aime
                       </button>
                       <button
                         onClick={() => sendFeedback(movie.title, false)}
                         className="flex-1 bg-gray-700 text-white py-3 rounded-full 
                                  hover:bg-gray-600 hover:-translate-y-1 transition-all duration-200"
                       >
-                        Je n'aime pas
+                        Je n&apos;aime pas
                       </button>
                     </div>
                   </div>
