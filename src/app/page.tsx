@@ -130,6 +130,7 @@ export default function Home() {
 
   const sendFeedback = async (movieTitle: string, liked: boolean) => {
     try {
+      setIsLoading(true);
       const response = await fetch(`${apiUrl}/feedback`, {
         method: "POST",
         headers: {
@@ -145,8 +146,53 @@ export default function Home() {
       if (!response.ok) {
         throw new Error("Erreur lors de l'envoi du feedback");
       }
+
+      const newRecommendationsResponse = await fetch(
+        `${apiUrl}/recommend?movie=${encodeURIComponent(
+          movieTitle
+        )}&user_id=${currentUserId}`
+      );
+
+      if (!newRecommendationsResponse.ok) {
+        throw new Error(
+          "Erreur lors de la récupération des nouvelles recommandations"
+        );
+      }
+
+      const data = await newRecommendationsResponse.json();
+      if (!data.error) {
+        if (liked) {
+          const existingTitles = new Set(
+            recommendations.map((movie) => movie.title)
+          );
+          const newRecommendations = data.recommendations.filter(
+            (movie: Movie) => !existingTitles.has(movie.title)
+          );
+
+          setRecommendations((prevRecs) => {
+            const updatedRecs = [...prevRecs, ...newRecommendations];
+            return updatedRecs.slice(0, 12);
+          });
+        } else {
+          const dislikedTitle = movieTitle.toLowerCase();
+          setRecommendations((prevRecs) => {
+            const filteredRecs = prevRecs.filter(
+              (movie) => movie.title.toLowerCase() !== dislikedTitle
+            );
+            const newRecommendations = data.recommendations.filter(
+              (movie: Movie) =>
+                !filteredRecs
+                  .map((m) => m.title.toLowerCase())
+                  .includes(movie.title.toLowerCase())
+            );
+            return [...filteredRecs, ...newRecommendations].slice(0, 12);
+          });
+        }
+      }
     } catch (error) {
       console.error("Erreur:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
